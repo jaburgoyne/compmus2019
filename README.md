@@ -16,4 +16,4 @@ I make bold **like this**.
 
 If I want to embed an image, I do it like this:
 
-![Week 7 Visualisation](./w7vix.png)
+![Week 7 Visualisation](./w7viz.png)
