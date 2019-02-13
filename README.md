@@ -14,3 +14,6 @@ I make italics *like this*.
 
 I make bold **like this**.
 
+If I want to embed an image, I do it like this:
+
+![Week 7 Visualisation](./w7vix.png)
