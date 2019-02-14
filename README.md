@@ -16,9 +16,9 @@ I make bold **like this**.
 
 If I want to embed an image, I do it like this:
 
-![Week 7 Visualisation](./w7viz.png)
+![Week 7 Visualisation](w7viz.png)
 
 # Here are some extra changes I made during the lab session.
 
-![Name for my picture](./lecturepic.png)
+![Name for my picture](lecturepic.png)
 
