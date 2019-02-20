@@ -25,7 +25,7 @@ This is introductory text. In general, it is not possible to use headers in this
 This is a second column of introductory text.
 
 
-### The Grammys are angrier than the Edisons
+### The Grammys are angrier than the Edisons in storyboards, too!
 
 ```{r}
 grammy <- get_playlist_audio_features('digster.fm', '4kQovkgBZTd8h2HCM3fF31')
@@ -47,7 +47,8 @@ angry <-
             x = valence,
             y = energy,
             size = loudness,
-            colour = mode
+            colour = mode,
+            label = track_name
         )
     ) +
     geom_point() +               # Scatter plot.
@@ -95,4 +96,6 @@ ggplotly(angry)
 
 ***
 
-Here is a thorough description of the visualisation.
+The code for this visualisation is almost exactly the same as last week, except that I added the `track_name` to my `aes` function so that plotly can see it. Note that I still decided to keep a few static labels to invite the viewer to look. If you follow the documentation, ggplot can draw circles and squares, too!
+
+### Here is a new tab from the lecture!
