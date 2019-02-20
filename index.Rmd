@@ -99,3 +99,5 @@ ggplotly(angry)
 The code for this visualisation is almost exactly the same as last week, except that I added the `track_name` to my `aes` function so that plotly can see it. Note that I still decided to keep a few static labels to invite the viewer to look. If you follow the documentation, ggplot can draw circles and squares, too!
 
 ### Here is a new tab from the lecture!
+
+And here is some new text.
