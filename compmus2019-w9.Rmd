@@ -1,0 +1,34 @@
+---
+title: "Week 9 · Structure Analysis · Self-Similarity Matrices"
+author: "John Ashley Burgoyne"
+date: "27 February 2019"
+output: html_notebook
+---
+
+
+```{r}
+
+add_audio_analysis <- function(df, ...)
+{
+    df %>% 
+        mutate(analysis = map(track_uri, get_tidy_audio_analysis, ...)) %>% 
+        unnest
+}
+
+rms <- function(v) sqrt(mean(v^2))
+compmus_central_tendency <- function(v, method = "mean")
+{
+    ## Supported functions
+    
+    ## Method aliases
+    
+    METHODS <-
+        list(
+            mean = mean,
+            median = median,
+            max = max
+        )
+}
+
+```
+
