@@ -110,7 +110,7 @@ The *x* axis shows valence and the *y* axis shows Spotify's ‘energy’ feature
 
 The visualisation shows that in 2019, the pop music at the Grammys was (according to Spotify) rather angrier and rather louder than the music at the Edisons.
 
-### The Tallis Scholars sing Josquin slower than La Chapelle Royale [chroma features].
+### The Tallis Scholars sing Josquin more slowly than La Chapelle Royale -- except for one part [chroma features].
 
 ```{r}
 tallis <- 
@@ -168,7 +168,7 @@ maria <-
                 'O Mater Dei',
                 ''),
         ) +
-    scale_fill_continuous(type = 'viridis', guide = "none") +
+    scale_fill_viridis_c(option = 'E', guide = "none") +
     theme_classic() + 
     theme(axis.text.x = element_text(angle = 30, hjust = 1)) +
     labs(x = 'The Tallis Scholars', y = 'La Chapelle Royale')
