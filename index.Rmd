@@ -172,10 +172,9 @@ maria <-
     theme_classic() + 
     theme(axis.text.x = element_text(angle = 30, hjust = 1)) +
     labs(x = 'The Tallis Scholars', y = 'La Chapelle Royale')
-ggsave('maria.png', maria, width = 13, height = 8, dpi = 'retina')
+# ggsave('maria.png', maria, width = 13, height = 8, dpi = 'retina')
+maria
 ```
-
-![Chroma similarity of two performances of Josquin’s ‘Ave Maria’](maria.png)
 
 ***
 
@@ -185,7 +184,7 @@ For the first four stanzas, the relationship between the performances is consist
 
 Although the interactive mouse-overs from `ggplotly` are very helpful for understanding heat maps, they are very computationally intensive. Chromagrams and similarity matrices are often better as static images, like the visualisation at left.
 
-Static images can also be useful to add content to your commentary, like the histogram of Aitchison distances below, labelled with the minimum, first quartile, median, third quartile, and maximum values in the data.
+Static images can sometimes also be useful to add content to your commentary, like the histogram of Aitchison distances below, labelled with the minimum, first quartile, median, third quartile, and maximum values in the data. You must save the images manually, however, at make sure to export them at a good size.
 
 ```{r}
 maria_hist <- 
