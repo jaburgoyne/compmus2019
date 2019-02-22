@@ -50,6 +50,10 @@ The grading breakdown for the portfolio is as follows. The rubric was adapted fr
 | Analysis         |      7 |
 | Presentation     |      7 |
 
+For more detailed code examples from each week, check the [repository page](https://github.com/jaburgoyne/compmus2019) or use the following links for rendered R Markdown files.
+
+- [Week 8](compmus2019-w8.nb.html)
+
 ### The Grammys are angrier than the Edisons [track-level features].
 
 ```{r}
