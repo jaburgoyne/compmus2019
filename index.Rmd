@@ -35,7 +35,10 @@ Your portfolio will be a 5–10-page storyboard in the style of the R package [f
 
 Depending on your topic, you may want to start with a text-based opening like this one; alternatively, you could put your most compelling visualisation directly on the first tab and just use the commentary to introduce your corpus and research questions.
 
-This storyboard contains further examples from each week to inspire you.
+This storyboard contains further examples from each week to inspire you. For more detailed code examples from each week, check the [repository page](https://github.com/jaburgoyne/compmus2019) or use the following links for rendered R Markdown files.
+
+- [Week 8](compmus2019-w8.nb.html)
+
 
 ***
 
@@ -49,10 +52,6 @@ The grading breakdown for the portfolio is as follows. The rubric was adapted fr
 | Interpretation   |      7 |
 | Analysis         |      7 |
 | Presentation     |      7 |
-
-For more detailed code examples from each week, check the [repository page](https://github.com/jaburgoyne/compmus2019) or use the following links for rendered R Markdown files.
-
-- [Week 8](compmus2019-w8.nb.html)
 
 ### The Grammys are angrier than the Edisons [track-level features].
 
