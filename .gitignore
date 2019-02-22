@@ -38,6 +38,3 @@ rsconnect/
 
 # OS X files
 .DS_Store
-
-# Spotify credentials
-spotify.R
