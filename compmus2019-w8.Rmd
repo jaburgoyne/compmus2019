@@ -153,7 +153,7 @@ If you want to compute actual alignments, look into the R [dtw package][4].
 
 ### WARNING
 
-The output of `geom_tile` can be very large if sent through `ggplotly`. You made need to make these visualisations static.
+The output of `geom_tile` can be very large if sent through `ggplotly`. You may need to make these visualisations static.
 
 
 [1]: https://github.com/rstudio/cheatsheets/blob/master/rmarkdown-2.0.pdf
