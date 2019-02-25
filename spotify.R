@@ -62,7 +62,7 @@ get_tidy_audio_analysis <- function(track_uri, ...)
 #' We use a number of normalisation strategies in Computational Musicology.
 #' This function brings them together into one place, along with common
 #' alternative names.
-compmus_normalise <- compmus_normalize <- function(v, method = "euclidean")
+compmus_normalise <- compmus_normalize <- function(v, method = 'euclidean')
 {
     ## Supported functions
 
@@ -100,7 +100,7 @@ compmus_normalise <- compmus_normalize <- function(v, method = "euclidean")
 #' We use a number of distance measures in Computational Musicology.
 #' This function brings them together into one place, along with common
 #' alternative names. It is designed for convenience, not speed.
-compmus_long_distance <- function(xdat, ydat, feature, method = "euclidean")
+compmus_long_distance <- function(xdat, ydat, feature, method = 'euclidean')
 {
 
     feature <- enquo(feature)
@@ -113,12 +113,12 @@ compmus_long_distance <- function(xdat, ydat, feature, method = "euclidean")
     pearson   <- function(x, y) 1 - cor(x, y)
     cosine    <- function(x, y)
     {
-        1 - sum(compmus_normalise(x, "euc") * compmus_normalise(y, "euc"))
+        1 - sum(compmus_normalise(x, 'euc') * compmus_normalise(y, 'euc'))
     }
     angular   <- function(x, y) 2 * acos(1 - cosine(x, y)) / pi
     aitchison <- function(x, y)
     {
-        euclidean(compmus_normalise(x, "clr"), compmus_normalise(y, "clr"))
+        euclidean(compmus_normalise(x, 'clr'), compmus_normalise(y, 'clr'))
     }
 
     ## Method aliases
@@ -163,7 +163,7 @@ compmus_gather_chroma <- function(data)
 {
     data %>%
         mutate(pitches = map(pitches, bind_rows)) %>% unnest(pitches) %>%
-        gather("pitch_class", "value", C:B) %>%
+        gather('pitch_class', 'value', C:B) %>%
         mutate(pitch_class = fct_shift(factor(pitch_class), 3))
 }
 
