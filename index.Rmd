@@ -172,7 +172,6 @@ maria <-
     theme_classic() + 
     theme(axis.text.x = element_text(angle = 30, hjust = 1)) +
     labs(x = 'The Tallis Scholars', y = 'La Chapelle Royale')
-# ggsave('maria.png', maria, width = 13, height = 8, dpi = 'retina')
 maria
 ```
 
@@ -198,7 +197,7 @@ maria_hist <-
         axis.text.y = element_blank()) +
     scale_x_continuous(breaks = c(0.7, 4.4, 5.5, 6.8, 14.2)) +
     labs(x = 'Aitchison Distance', y = '')
-ggsave("maria_hist.png", maria_hist, width = 3, height = 2, dpi = 'screen')
+ggsave("compmus-w08vizb.png", maria_hist, width = 3, height = 2, dpi = 'screen')
 ```
 
-![](maria_hist.png)
+![](compmus-w08vizb.png)
