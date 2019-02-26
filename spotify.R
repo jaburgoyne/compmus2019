@@ -88,7 +88,6 @@ compmus_normalise <- compmus_normalize <- function(v, method = 'euclidean')
 
     ## Function selection
 
-
     if (!is.na(i <- pmatch(method, names(METHODS))))
         METHODS[[i]](v)
     else

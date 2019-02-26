@@ -1,13 +1,21 @@
----
+ ---
 title: "Week 9 · Structure Analysis · Self-Similarity Matrices"
 author: "John Ashley Burgoyne"
 date: "27 February 2019"
 output: html_notebook
 ---
 
+## Set-up
 
 ```{r}
+library(tidyverse)
+library(spotifyr)
+source('spotify.R')
+```
 
+## New functions
+
+```{r}
 add_audio_analysis <- function(df, ...)
 {
     df %>% 
@@ -15,20 +23,66 @@ add_audio_analysis <- function(df, ...)
         unnest
 }
 
-rms <- function(v) sqrt(mean(v^2))
-compmus_central_tendency <- function(v, method = "mean")
+compmus_summarise <- compmus_summarize <- function(dat, feature, method = 'mean')
 {
-    ## Supported functions
+    feature <- enquo(feature)
     
+    ## Support functions
+    ## TODO: Add geometric median and Chebyshev center.
+    ## TODO: Search for minimum sum of angular distances in hyper-quadrant I.
+
+    clr     <- function(v) {lv = log(v); lv - mean(lv)}
+    softmax <- function(v) {exp(v) / sum(exp(v))}
+    square  <- function(v) v^2
+    not_max  <- function(v) v != max(v)
+
     ## Method aliases
     
     METHODS <-
         list(
-            mean = mean,
-            median = median,
-            max = max
-        )
+            ## Central tendencies
+            mean      = list( identity , mean , identity ),
+            aitchison = list( clr      , mean , softmax  ),
+            acenter   = list( clr      , mean , softmax  ),
+            rms       = list( square   , mean , sqrt     ), 
+            max       = list( identity , max  , identity ),
+            ## Dispersions
+            sd        = list( identity , sd   , identity ),
+            asd       = list( clr      , sd   , identity ),
+            sdsq      = list( square   , sd   , identity ),
+            varratio  = list( not_max  , mean , identity ))
+    
+    ## Function selection
+    
+    if (!is.na(i <- pmatch(method, names(METHODS))))
+        dat %>% 
+        transmute(
+            !!feature := map(!!feature, . %>% (METHODS[[i]][[1]]) %>% bind_rows)) %>% 
+        unnest(!!feature) %>% 
+        summarise_all(METHODS[[i]][[2]]) %>% 
+        nest(.key = !!feature) %>% 
+        mutate(
+            !!feature := 
+                map(!!feature, . %>% map_dbl(1) %>% (METHODS[[i]][[3]])))
+    else
+        stop('The method name is ambiguous or the method is unsupported.')
+
 }
 
+```
+
+## Bloed, Zweet en Tranen
+
+```{r}
+bzt <- get_tidy_audio_analysis('5ZLkc5RY1NM4FtGWEd6HOE')
+```
+
+```{r}
+bzt %>% 
+    select(segments) %>% unnest(segments) %>% 
+    mutate(pitches = map(pitches, compmus_normalise, 'chebyshev')) %>% 
+    compmus_summarise(pitches, 'varratio') %>% 
+    pluck('pitches') %>% 
+    magrittr::extract2(1)
 ```
 
