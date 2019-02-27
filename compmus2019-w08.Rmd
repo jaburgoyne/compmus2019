@@ -134,7 +134,7 @@ compmus_long_distance(
             height = yduration,
             fill = d)) + 
     geom_tile() +
-    scale_fill_continuous(type = 'viridis', guide = "none") +
+    scale_fill_continuous(type = 'viridis', guide = 'none') +
     labs(x = 'The Tallis Scholars', y = 'La Chapelle Royale') +
     theme_minimal()
 ```
