@@ -9,11 +9,10 @@ output:
 
 ## Set-up
 
-This week, I have expanded `spotify.R` and moved all of the functions, including new functions, there.
-
 ```{r}
 library(tidyverse)
 library(spotifyr)
+library(compmus)
 source('spotify.R')
 ```
 
@@ -33,7 +32,7 @@ Last week, we used several custom functions to work with the Spotify API:
       - `cosine`
       - `angular`
   
-This week, we have a few new custom functions. 
+This week, we will use a few new custom functions. 
 
   - `compmus_align` aligns two levels of structure with each other, e.g., Spotify segments with beats or bars.
   - `compmus_summarise` helps to summarise features within higher levels of structure, including:

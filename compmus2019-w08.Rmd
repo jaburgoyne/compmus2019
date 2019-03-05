@@ -16,16 +16,13 @@ We also begin by loading the libraries we need for analysis. Notice that I've ad
 ```{r}
 library(tidyverse)
 library(spotifyr)
+library(compmus)
 source('spotify.R')
 ```
 
-## Functions
-
-We need some helper functions this week, which I have also added to `spotify.R`. 
-
 ## Chromagrams
 
-One of the new helper functions, `get_tidy_audio_analysis`, does just what it says, for one track at a time. Spotify's audio analysis is thorough, and basic [documentation][2] is available for everything in it.
+One of the `compmus` helper functions, `get_tidy_audio_analysis`, does just what it says, for one track at a time. Spotify's audio analysis is thorough, and basic [documentation][2] is available for everything in it.
 
 Let's pull down the analysis of a recording of Steve Reich's 'Music for Pieces of Wood' (well worth a listen if you don't know the piece). For reasons that will become clearer next week, one needs to `select` the desired field out of the analysis -- in this case, `segments` -- and then `unnest` it.
 
