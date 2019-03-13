@@ -75,8 +75,7 @@ chord_templates <-
         'G#:min', circshift(minor_chord,    8),
         'B:7'   , circshift(seventh_chord, 11),
         'B:maj' , circshift(major_chord,   11),
-        'D#:min', circshift(minor_chord,    3),
-)
+        'D#:min', circshift(minor_chord,    3))
 
 key_templates <-
     tribble(

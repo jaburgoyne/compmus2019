@@ -38,6 +38,7 @@ This storyboard contains further examples from each week to inspire you. For mor
 - [Week 8](compmus2019-w08.nb.html)
 - [Week 9](compmus2019-w09.nb.html)
 - [Week 10](compmus2019-w10.nb.html)
+- [Week 11](compmus2019-w11.nb.html)
 
 ***
 
@@ -304,6 +305,4 @@ ggplotly(twenty_five)
 The keygram at the left shows the two modulations in Zager and Evans's 'In the Year 2525' (1969). The piece is segmented according to Spotify's estimates, and the distances represented are Aitchison distances from Spotify's chroma vectors to the original Krumhansl--Kessler key profiles (1990). 
 
 The piece does not follow common-era tonal conventions, and the key estimates are blurry. The move from G$\sharp$ minor to A minor about a minute and a half into the song is correctly estimated, despite the high spillage into related keys. The second modulation, to B$\flat$ minor, is misunderstood as F minor. The sparser texture two-and-a-half minutes into the song throws off the key-finding algorithm seriously.
-    
-```
 
