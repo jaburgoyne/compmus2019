@@ -11,7 +11,10 @@ output:
 ```{r, cache = FALSE}
 # In order to use these packages, we need to install flexdashboard, plotly, and Cairo.
 library(tidyverse)
+library(tidymodels)
+library(protoclust)
 library(plotly)
+library(heatmaply)
 library(spotifyr)
 library(compmus)
 source('spotify.R')
@@ -39,6 +42,7 @@ This storyboard contains further examples from each week to inspire you. For mor
 - [Week 9](compmus2019-w09.nb.html)
 - [Week 10](compmus2019-w10.nb.html)
 - [Week 11](compmus2019-w11.nb.html)
+- [Week 12](compmus2019-w12.nb.html)
 
 ***
 
@@ -306,3 +310,147 @@ The keygram at the left shows the two modulations in Zager and Evans's 'In the Y
 
 The piece does not follow common-era tonal conventions, and the key estimates are blurry. The move from G$\sharp$ minor to A minor about a minute and a half into the song is correctly estimated, despite the high spillage into related keys. The second modulation, to B$\flat$ minor, is misunderstood as F minor. The sparser texture two-and-a-half minutes into the song throws off the key-finding algorithm seriously.
 
+### Classifying independent workouts
+
+```{r}
+pop <- 
+    get_playlist_audio_features('spotify', '37i9dQZF1DWWEcRhUVtL8n') %>% 
+    add_audio_analysis
+party <- 
+    get_playlist_audio_features('spotify', '37i9dQZF1DWTujiC7wfofZ') %>% 
+    add_audio_analysis
+workout <- 
+    get_playlist_audio_features('spotify', '37i9dQZF1DXaRL7xbcDl7X') %>% 
+    add_audio_analysis
+indie <- 
+    pop %>% mutate(playlist = "Indie Pop") %>% 
+    bind_rows(
+        party %>% mutate(playlist = "Indie Party"),
+        workout %>% mutate(playlist = "Indie Workout")) %>% 
+    mutate(playlist = factor(playlist)) %>% 
+    mutate(
+        segments = 
+            map2(segments, key, compmus_c_transpose)) %>% 
+    mutate(
+        pitches = 
+            map(segments, 
+                compmus_summarise, pitches, 
+                method = 'mean', norm = 'manhattan'),
+        timbre =
+            map(
+                segments,
+                compmus_summarise, timbre,
+                method = 'mean')) %>% 
+    mutate(pitches = map(pitches, compmus_normalise, 'clr')) %>% 
+    mutate_at(vars(pitches, timbre), map, bind_rows) %>% 
+    unnest(pitches, timbre)
+indie_juice <- 
+    recipe(playlist ~
+               danceability +
+               energy +
+               loudness +
+               speechiness +
+               acousticness +
+               instrumentalness +
+               liveness +
+               valence +
+               tempo +
+               duration_ms +
+               C + `C#|Db` + D + `D#|Eb` +
+               E + `F` + `F#|Gb` + G +
+               `G#|Ab` + A + `A#|Bb` + B +
+               c01 + c02 + c03 + c04 + c05 + c06 +
+               c07 + c08 + c09 + c10 + c11 + c12,
+           data = indie) %>% 
+    step_center(all_predictors()) %>%
+    step_scale(all_predictors()) %>%
+    # step_range(all_predictors()) %>% 
+    prep(indie) %>% 
+    juice
+indie_cv <- indie_juice %>% vfold_cv(10)
+indie_knn <- nearest_neighbor(neighbors = 1) %>% set_engine('kknn')
+predict_knn_reduced <- function(split)
+    fit(
+        indie_knn, 
+        playlist ~ c01 + c02 + energy + danceability + tempo, 
+        data = analysis(split)) %>% 
+    predict(assessment(split), type = 'class') %>%
+    bind_cols(assessment(split))
+indie_cv %>% 
+    mutate(pred = map(splits, predict_knn_reduced)) %>% unnest(pred) %>% 
+    conf_mat(truth = playlist, estimate = .pred_class) %>% 
+    autoplot(type = 'mosaic')
+```
+
+***
+
+The mosaic at the left shows the performance of a classifier trying to distinguish three Spotify playlists: Indie Pop, Indie Party, and Indie Workout. Using a random-forest classifier, the most important features for classifying tracks among these playlists are:
+
+  - Timbre Component 1 (loudness),
+  - Timbre Component 2 (brightness),
+  - energy,
+  - danceability, and
+  - tempo.
+  
+After these five features, there is a substantial drop in importance. The mosaic displays the results, after 10-fold cross-validation, of a nearest-neighbour classifier with just these five features. 
+
+The performance of the classifier is mediocre: overall classification accuracy is 57 percent, with a J-index of 0.32. Although these features are reasonably effective at identifying the party and pop playlists, the precision of the classifier's predictions of workout tracks is very low: when the classifier predicts that a track is a workout track, it is actually slightly more likely to be a party track. 
+
+Either Spotify's Indie Workout playlist is not as tailored to workouts as its names would lead users to believe, or we need features beyond the Spotify itself to make the distinction. 
+
+### What are the components of a Hallowe'en playlist?
+
+```{r}
+halloween <- 
+    get_playlist_audio_features('bnfcollection', '1vsoLSK3ArkpaIHmUaF02C') %>% 
+    add_audio_analysis %>% 
+    mutate(
+        segments = 
+            map2(segments, key, compmus_c_transpose)) %>% 
+    mutate(
+        pitches = 
+            map(segments, 
+                compmus_summarise, pitches, 
+                method = 'mean', norm = 'manhattan'),
+        timbre =
+            map(
+                segments,
+                compmus_summarise, timbre,
+                method = 'mean')) %>% 
+    mutate(pitches = map(pitches, compmus_normalise, 'clr')) %>% 
+    mutate_at(vars(pitches, timbre), map, bind_rows) %>% 
+    unnest(pitches, timbre)
+halloween_juice <- 
+    recipe(track_name ~
+               danceability +
+               energy +
+               loudness +
+               speechiness +
+               acousticness +
+               instrumentalness +
+               liveness +
+               valence +
+               tempo +
+               duration_ms +
+               C + `C#|Db` + D + `D#|Eb` +
+               E + `F` + `F#|Gb` + G +
+               `G#|Ab` + A + `A#|Bb` + B +
+               c01 + c02 + c03 + c04 + c05 + c06 +
+               c07 + c08 + c09 + c10 + c11 + c12,
+           data = halloween) %>% 
+    step_range(all_predictors()) %>% 
+    prep(halloween %>% mutate(track_name = str_trunc(track_name, 20))) %>% 
+    juice %>% 
+    column_to_rownames('track_name')
+tmp <- grDevices::dev.size("px")
+heatmaply(
+    halloween_juice,
+    hclustfun = protoclust,
+    dist_method = 'manhattan')
+```
+
+***
+
+The dendrogram and heatmap at right breaks the Bibliothèque nationale de France's Hallowe'en playlist into four clusters based on Gower's distance. First, there is a small, more classical cluster, that stay strictly in their original keys with low values for C sharp, G sharp, and A sharp. Second, there is a group of danceable, high-energy tracks. The third group is difficult to characterise on the basis of the heatmap: if anything, there seems to be lower emphasis on major thirds and leading tones, perhaps pentatonic tonality. The final group clearly represents the non-instrumental, low-valence tracks on the list. 
+
+The song titles make it clear that the over-arching them of this list has more to do with textual than musical content, however, which is not available in the Spotify API. 

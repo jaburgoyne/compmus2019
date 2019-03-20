@@ -175,7 +175,7 @@ indie_class <-
 
 ### Cross-Validation
 
-The `vfold_cv` function sets up cross-validation. We will use 5-fold cross-validation here in the interest of spped, but 10-fold cross-validation is more typical. 
+The `vfold_cv` function sets up cross-validation. We will use 5-fold cross-validation here in the interest of speed, but 10-fold cross-validation is more typical. 
 
 ```{r}
 indie_cv <- indie_class %>% vfold_cv(5)
